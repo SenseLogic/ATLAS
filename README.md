@@ -12,7 +12,7 @@ In reading mode, a navigation header containing a folder breadcrumb and a subfil
 
 *   In your vault folder, create a `.obsidian/plugins/atlas` subfolder.
 *   Copy `main.js`, `manifest.json` and `styles.css` inside this subfolder.
-*   Add "atlas" to `.obsidian/community-plugins.json`.
+*   Enable the Atlas plugin from the `Community plugins` settings panel.
 
 ## Version
 
