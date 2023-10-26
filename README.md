@@ -8,7 +8,7 @@ In-view navigation plugin for Obsidian.
 
 In reading mode, this plugin dynamically adds a parent note list and a child note list around the opened note title.
 
-This allows to quickly navigate up and down through the note hierarchy directly from the reading view, and also to easily create parent folder notes by simply clicking on them in the list.
+This allows to quickly navigate up and down through the note hierarchy directly from the reading view, and also to create parent folder notes by simply clicking on them in the list.
 
 ## Installation
 
