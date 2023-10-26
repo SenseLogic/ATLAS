@@ -6,13 +6,9 @@ In-view navigation plugin for Obsidian.
 
 ## Description
 
-In reading mode, adds to the title of the currently opened note :
-*   a breadcrumb of parent note links;
-*   a list of child note links.
+In reading mode, this plugin dynamically adds a parent note list and a child note list around the opened note title.
 
-This allows to :
-*   quickly navigate up and down through the notes directly from them;
-*   easily create parent folder notes, by clicking on their link in the breadcrumb.
+This allows to quickly navigate up and down through the note hierarchy directly from their rendering view, and also to easily create parent folder notes by simply clicking on them in the list.
 
 ## Installation
 
@@ -22,11 +18,11 @@ This allows to :
 
 ## Limitations
 
-*   The links appear some time after the note, since they can't be added to its title before it is already rendered.
+*   Those lists appear after the note content itself, since they must be added after is already rendered.
 
 ## Version
 
-0.0.1
+1.0
 
 ## Author
 
