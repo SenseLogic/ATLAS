@@ -18,7 +18,7 @@ This allows to quickly navigate up and down through the note hierarchy directly 
 
 ## Limitations
 
-*   Those lists appear after the note content itself, since they must be added after is already rendered.
+*   The lists appear after the note content.
 
 ## Version
 
