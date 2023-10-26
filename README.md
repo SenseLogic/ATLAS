@@ -2,17 +2,27 @@
 
 # Atlas
 
-Navigation header for Obsidian.
+In-view navigation plugin for Obsidian.
 
 ## Description
 
-In reading mode, a navigation header containing a folder breadcrumb and a subfile list is added to the top of the Markdown note.
+In reading mode, adds to the title of the currently opened note :
+*   a breadcrumb of parent note links;
+*   a list of child note links.
+
+This allows to :
+*   quickly navigate up and down through the notes directly from them;
+*   easily create parent folder notes, by clicking on their link in the breadcrumb.
 
 ## Installation
 
 *   In your vault folder, create a `.obsidian/plugins/atlas` subfolder.
 *   Copy `main.js`, `manifest.json` and `styles.css` inside this subfolder.
 *   Enable the Atlas plugin from the `Community plugins` settings panel.
+
+## Limitations
+
+*   The links appear some time after the note, since they can't be added to its title before it is already rendered.
 
 ## Version
 
