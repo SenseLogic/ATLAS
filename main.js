@@ -41,7 +41,8 @@ class AtlasSettingTab
                             this.plugin.settings.parentLinkTranslation = value;
                             await this.plugin.saveSettings();
                         }
-                ) );
+                        )
+                );
 
         new Setting( containerEl )
             .setName( 'Parent link font size' )
@@ -56,7 +57,8 @@ class AtlasSettingTab
                             this.plugin.settings.parentLinkFontSize = value;
                             await this.plugin.saveSettings();
                         }
-                ) );
+                        )
+                );
 
         new Setting( containerEl )
             .setName( 'Parent link gap' )
@@ -71,7 +73,8 @@ class AtlasSettingTab
                             this.plugin.settings.parentLinkGap = value;
                             await this.plugin.saveSettings();
                         }
-                ) );
+                        )
+                );
 
         new Setting( containerEl )
             .setName( 'Child link font size' )
@@ -86,7 +89,8 @@ class AtlasSettingTab
                             this.plugin.settings.childLinkFontSize = value;
                             await this.plugin.saveSettings();
                         }
-                ) );
+                        )
+                );
 
         new Setting( containerEl )
             .setName( 'Child link gap' )
@@ -101,7 +105,8 @@ class AtlasSettingTab
                             this.plugin.settings.childLinkGap = value;
                             await this.plugin.saveSettings();
                         }
-                ) );
+                        )
+                );
 
         new Setting( containerEl )
             .setName( 'Update interval' )
@@ -116,7 +121,8 @@ class AtlasSettingTab
                             this.plugin.settings.updateInterval = value;
                             await this.plugin.saveSettings();
                         }
-                ) );
+                        )
+                );
     }
 }
 
@@ -154,11 +160,9 @@ module.exports = class Atlas extends Plugin
 
     // ~~
 
-    clearTitle(
+    removeTitleElements(
         )
     {
-        this.titleElement = null;
-
         let parentFileListElement = document.getElementById( 'atlas-parentFileList' );
         let childFileListElement = document.getElementById( 'atlas-link-list' );
 
@@ -171,6 +175,15 @@ module.exports = class Atlas extends Plugin
         {
             childFileListElement.remove();
         }
+    }
+
+    // ~~
+
+    clearTitle(
+        )
+    {
+        this.titleElement = null;
+        this.removeTitleElements();
     }
 
     // ~~
@@ -188,6 +201,8 @@ module.exports = class Atlas extends Plugin
 
                 if ( mode === 'preview' )
                 {
+                    this.removeTitleElements();
+
                     let activeFile = this.app.workspace.getActiveFile();
                     let activeFilePath = activeFile.path;
 
@@ -226,7 +241,7 @@ module.exports = class Atlas extends Plugin
                             }
                         }
 
-                        if ( superFolderArray.length >= 0 )
+                        if ( superFolderArray.length > 0 )
                         {
                             let parentFileListElement = document.createElement( 'div' );
                             parentFileListElement.setAttribute( 'id', 'atlas-parentFileList' );
@@ -265,7 +280,7 @@ module.exports = class Atlas extends Plugin
                             this.titleElement.insertAdjacentElement( 'beforeBegin', parentFileListElement );
                         }
 
-                        if ( subFileArray.length >= 0 )
+                        if ( subFileArray.length > 0 )
                         {
                             let childFileListElement = document.createElement( 'div' );
                             childFileListElement.setAttribute( 'id', 'atlas-link-list' );
@@ -307,6 +322,43 @@ module.exports = class Atlas extends Plugin
 
         this.titleElement = null;
 
+        this.app.workspace.onLayoutReady(
+            () =>
+            {
+                this.clearTitle();
+            }
+            );
+
+        this.registerEvent(
+            this.app.workspace.on(
+                'window-open',
+                () =>
+                {
+                    this.clearTitle();
+                }
+                )
+            );
+
+        this.registerEvent(
+            this.app.workspace.on(
+                'file-open',
+                () =>
+                {
+                    this.clearTitle();
+                }
+                )
+            );
+
+        this.registerEvent(
+            this.app.workspace.on(
+                'editor-change',
+                () =>
+                {
+                    this.clearTitle();
+                }
+                )
+            );
+
         this.registerEvent(
             this.app.workspace.on(
                 'layout-change',
@@ -319,7 +371,7 @@ module.exports = class Atlas extends Plugin
 
         this.registerEvent(
             this.app.workspace.on(
-                'layout-ready',
+                'css-change',
                 () =>
                 {
                     this.clearTitle();
