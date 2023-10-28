@@ -36,7 +36,6 @@ This allows to quickly navigate up and down through the note hierarchy directly 
           target-folder: /*
         ---
         ```
-
 ## Limitations
 
 *   The folder note must have the same name as its folder.
