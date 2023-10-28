@@ -1,6 +1,6 @@
 // -- IMPORTS
 
-const { Plugin, PluginSettingTab, Setting, TFile, TFolder } = require( 'obsidian' );
+const { MarkdownView, Plugin, PluginSettingTab, Setting, TFile, TFolder } = require( 'obsidian' );
 
 // -- TYPES
 
@@ -160,20 +160,29 @@ module.exports = class Atlas extends Plugin
 
     // ~~
 
+    getContentElement(
+        )
+    {
+        let activeView = app.workspace.activeLeaf?.view;
+
+        if ( activeView instanceof MarkdownView )
+        {
+            return activeView.contentEl;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    // ~~
+
     removeTitleElements(
         )
     {
-        let parentFileListElement = document.getElementById( 'atlas-parentFileList' );
-        let childFileListElement = document.getElementById( 'atlas-link-list' );
-
-        if ( parentFileListElement )
+        for ( let fileListElement of document.querySelectorAll( '#atlas-plugin-file-list' ) )
         {
-            parentFileListElement.remove();
-        }
-
-        if ( childFileListElement )
-        {
-            childFileListElement.remove();
+            fileListElement.remove();
         }
     }
 
@@ -182,7 +191,7 @@ module.exports = class Atlas extends Plugin
     clearTitle(
         )
     {
-        this.titleElement = null;
+        this.titleElementByContentElementMap = {};
         this.removeTitleElements();
     }
 
@@ -191,119 +200,128 @@ module.exports = class Atlas extends Plugin
     updateTitle(
         )
     {
-        if ( !this.titleElement )
+        let contentElement = this.getContentElement();
+
+        if ( contentElement )
         {
-            this.titleElement = document.querySelector( '.inline-title' );
+            let titleElement = this.titleElementByContentElementMap[ contentElement ];
 
-            if ( this.titleElement )
+            if ( !titleElement )
             {
-                let mode = app.workspace.activeLeaf?.getViewState()?.state?.mode;
+                titleElement = contentElement.querySelector( '.inline-title' );
 
-                if ( mode === 'preview' )
+                if ( titleElement )
                 {
-                    this.removeTitleElements();
+                    this.titleElementByContentElementMap[ contentElement ] = titleElement;
 
-                    let activeFile = this.app.workspace.getActiveFile();
-                    let activeFilePath = activeFile.path;
+                    let mode = app.workspace.activeLeaf?.getViewState()?.state?.mode;
 
-                    if ( activeFilePath.endsWith( '.md' ) )
+                    if ( mode === 'preview' )
                     {
-                        let superFolderArray = [];
+                        this.removeTitleElements();
 
-                        if ( activeFile.parent )
+                        let activeFile = this.app.workspace.getActiveFile();
+                        let activeFilePath = activeFile.path;
+
+                        if ( activeFilePath.endsWith( '.md' ) )
                         {
-                            for ( let superFolder = activeFile.parent;
-                                  superFolder;
-                                  superFolder = superFolder.parent )
+                            let superFolderArray = [];
+
+                            if ( activeFile.parent )
                             {
-                                if ( superFolder.path !== '/' )
+                                for ( let superFolder = activeFile.parent;
+                                      superFolder;
+                                      superFolder = superFolder.parent )
                                 {
-                                    superFolderArray.push( superFolder );
-                                }
-                            }
-                        }
-
-                        let subFolderPath = activeFilePath.slice( 0, -3 );
-                        let subFolder = this.app.vault.getAbstractFileByPath( subFolderPath );
-                        let subFileArray = [];
-
-                        if ( subFolder
-                             && subFolder instanceof TFolder )
-                        {
-                            for ( let file of subFolder.children )
-                            {
-                                if ( file instanceof TFile
-                                     && file.parent === subFolder
-                                     && file.name.endsWith( '.md' ) )
-                                {
-                                    subFileArray.push( file );
-                                }
-                            }
-                        }
-
-                        if ( superFolderArray.length > 0 )
-                        {
-                            let parentFileListElement = document.createElement( 'div' );
-                            parentFileListElement.setAttribute( 'id', 'atlas-parentFileList' );
-                            parentFileListElement.style.display = 'flex';
-                            parentFileListElement.style.gap = this.settings.parentLinkGap;
-                            parentFileListElement.style.fontSize = this.settings.parentLinkFontSize;
-                            parentFileListElement.style.transform = 'translateY(' + this.settings.parentLinkTranslation + ')';
-                            parentFileListElement.style.position = 'absolute';
-
-                            for ( let superFolderIndex = superFolderArray.length - 1;
-                                  superFolderIndex >= 0;
-                                  --superFolderIndex )
-                            {
-                                let superFolder = superFolderArray[ superFolderIndex ];
-
-                                let linkElement = document.createElement( 'a' );
-                                linkElement.setAttribute( 'class', 'internal-link' );
-                                linkElement.setAttribute( 'data-href', superFolder.path );
-                                linkElement.setAttribute( 'data-tooltip-position', 'top' );
-                                linkElement.setAttribute( 'aria-label', superFolder.name );
-                                linkElement.setAttribute( 'href', superFolder.path );
-                                linkElement.setAttribute( 'rel', 'noopener' );
-                                linkElement.setAttribute( 'target', '_blank' );
-                                linkElement.textContent = superFolder.name;
-
-                                parentFileListElement.appendChild( linkElement );
-
-                                if ( superFolderIndex > 0 )
-                                {
-                                    let slashElement = document.createElement( 'span' );
-                                    slashElement.textContent = '/';
-                                    parentFileListElement.appendChild( slashElement );
+                                    if ( superFolder.path !== '/' )
+                                    {
+                                        superFolderArray.push( superFolder );
+                                    }
                                 }
                             }
 
-                            this.titleElement.insertAdjacentElement( 'beforeBegin', parentFileListElement );
-                        }
+                            let subFolderPath = activeFilePath.slice( 0, -3 );
+                            let subFolder = this.app.vault.getAbstractFileByPath( subFolderPath );
+                            let subFileArray = [];
 
-                        if ( subFileArray.length > 0 )
-                        {
-                            let childFileListElement = document.createElement( 'div' );
-                            childFileListElement.setAttribute( 'id', 'atlas-link-list' );
-                            childFileListElement.style.display = 'flex';
-                            childFileListElement.style.flexDirection = 'column';
-                            childFileListElement.style.gap = this.settings.childLinkGap;
-                            childFileListElement.style.fontSize = this.settings.childFontSize;
-
-                            for ( let subFile of subFileArray )
+                            if ( subFolder
+                                 && subFolder instanceof TFolder )
                             {
-                                let linkElement = document.createElement( 'a' );
-                                linkElement.setAttribute( 'class', 'internal-link' );
-                                linkElement.setAttribute( 'data-href', subFile.path );
-                                linkElement.setAttribute( 'data-tooltip-position', 'top' );
-                                linkElement.setAttribute( 'aria-label', subFile.name );
-                                linkElement.setAttribute( 'href', subFile.path );
-                                linkElement.setAttribute( 'rel', 'noopener' );
-                                linkElement.setAttribute( 'target', '_blank' );
-                                linkElement.textContent = subFile.name.slice( 0, -3 );
-                                childFileListElement.appendChild( linkElement );
+                                for ( let file of subFolder.children )
+                                {
+                                    if ( file instanceof TFile
+                                         && file.parent === subFolder
+                                         && file.name.endsWith( '.md' ) )
+                                    {
+                                        subFileArray.push( file );
+                                    }
+                                }
                             }
 
-                            this.titleElement.insertAdjacentElement( 'afterEnd', childFileListElement );
+                            if ( superFolderArray.length > 0 )
+                            {
+                                let parentFileListElement = document.createElement( 'div' );
+                                parentFileListElement.id = 'atlas-plugin-file-list';
+                                parentFileListElement.style.display = 'flex';
+                                parentFileListElement.style.gap = this.settings.parentLinkGap;
+                                parentFileListElement.style.fontSize = this.settings.parentLinkFontSize;
+                                parentFileListElement.style.transform = 'translateY(' + this.settings.parentLinkTranslation + ')';
+                                parentFileListElement.style.position = 'absolute';
+
+                                for ( let superFolderIndex = superFolderArray.length - 1;
+                                      superFolderIndex >= 0;
+                                      --superFolderIndex )
+                                {
+                                    let superFolder = superFolderArray[ superFolderIndex ];
+
+                                    let linkElement = document.createElement( 'a' );
+                                    linkElement.setAttribute( 'class', 'internal-link' );
+                                    linkElement.setAttribute( 'data-href', superFolder.path );
+                                    linkElement.setAttribute( 'data-tooltip-position', 'top' );
+                                    linkElement.setAttribute( 'aria-label', superFolder.name );
+                                    linkElement.setAttribute( 'href', superFolder.path );
+                                    linkElement.setAttribute( 'rel', 'noopener' );
+                                    linkElement.setAttribute( 'target', '_blank' );
+                                    linkElement.textContent = superFolder.name;
+
+                                    parentFileListElement.appendChild( linkElement );
+
+                                    if ( superFolderIndex > 0 )
+                                    {
+                                        let slashElement = document.createElement( 'span' );
+                                        slashElement.textContent = '/';
+                                        parentFileListElement.appendChild( slashElement );
+                                    }
+                                }
+
+                                titleElement.insertAdjacentElement( 'beforeBegin', parentFileListElement );
+                            }
+
+                            if ( subFileArray.length > 0 )
+                            {
+                                let childFileListElement = document.createElement( 'div' );
+                                childFileListElement.id = 'atlas-plugin-file-list';
+                                childFileListElement.style.display = 'flex';
+                                childFileListElement.style.flexDirection = 'column';
+                                childFileListElement.style.gap = this.settings.childLinkGap;
+                                childFileListElement.style.fontSize = this.settings.childFontSize;
+
+                                for ( let subFile of subFileArray )
+                                {
+                                    let linkElement = document.createElement( 'a' );
+                                    linkElement.setAttribute( 'class', 'internal-link' );
+                                    linkElement.setAttribute( 'data-href', subFile.path );
+                                    linkElement.setAttribute( 'data-tooltip-position', 'top' );
+                                    linkElement.setAttribute( 'aria-label', subFile.name );
+                                    linkElement.setAttribute( 'href', subFile.path );
+                                    linkElement.setAttribute( 'rel', 'noopener' );
+                                    linkElement.setAttribute( 'target', '_blank' );
+                                    linkElement.textContent = subFile.name.slice( 0, -3 );
+                                    childFileListElement.appendChild( linkElement );
+                                }
+
+                                titleElement.insertAdjacentElement( 'afterEnd', childFileListElement );
+                            }
                         }
                     }
                 }
@@ -320,7 +338,7 @@ module.exports = class Atlas extends Plugin
 
         await this.loadSettings();
 
-        this.titleElement = null;
+        this.titleElementByContentElementMap = {};
 
         this.app.workspace.onLayoutReady(
             () =>
