@@ -2,7 +2,7 @@
 
 # Atlas
 
-Reading mode navigation plugin for Obsidian.
+Notion-like navigation plugin for Obsidian.
 
 ## Description
 
