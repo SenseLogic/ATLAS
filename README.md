@@ -16,8 +16,30 @@ This allows to quickly navigate up and down through the note hierarchy directly 
 *   Copy `main.js`, `manifest.json` and `styles.css` inside this subfolder.
 *   Enable the Atlas plugin from the `Community plugins` settings panel.
 
+## Complementary plugins
+
+*   Local Images Plus (Sergei Korneev) :
+    *   Use MD5 for new attachments : no.
+    *   Preserve link captions : yes.
+    *   Add original filename or Open file tag : no.
+    *   How to write paths in tags : Relative to note.
+    *   Folder to save new attachments : Next to note in the folder specified below.
+    *   Media folder : ${notename)
+    *   Move/delete/rename media folder : yes.
+    *   Command Palette > Local Images Plus: Download all media files.
+*   Custom File Explorer Sorting (SebastianMC) :
+    *   Create `sortspec.md` :
+        ```
+        ---
+        sorting-spec: |
+          order-asc: a-z
+          target-folder: /*
+        ---
+        ```
+
 ## Limitations
 
+*   The folder note must have the same name as its folder.
 *   The lists appear after the note content.
 
 ## Version
