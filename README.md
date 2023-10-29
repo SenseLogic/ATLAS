@@ -26,7 +26,7 @@ This plugin is best used :
     topaz --fix-paths --fix-newlines --fix-video-links --fix-titles --fix-indexes NOTION_EXPORT_FOLDER/ OBSIDIAN_VAULT_FOLDER/
     ```
 *   Along with the following Obsidian plugins :
-    *   Local Images Plus (Sergei Korneev) :
+    *   Local Images Plus :
         *   Process all new markdown files : yes.
         *   Process all new attachments : yes.
         *   Use MD5 for new attachments : no.
@@ -37,8 +37,8 @@ This plugin is best used :
         *   Folder to save new attachments : Next to note in the folder specified below.
         *   Media folder : ${notename)
         *   Move/delete/rename media folder : yes.
-    *   Fast Image Cleaner (Nathaniel).
-    *   Custom File Explorer Sorting (SebastianMC) :
+    *   Fast Image Cleaner.
+    *   Custom File Explorer Sorting :
         *   `sortspec.md`
             ```md
             ---
