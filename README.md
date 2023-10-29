@@ -37,7 +37,10 @@ This plugin is best used :
         *   Folder to save new attachments : Next to note in the folder specified below.
         *   Media folder : ${notename)
         *   Move/delete/rename media folder : yes.
-    *   Fast Image Cleaner.
+    *   Fast Image Cleaner :
+        *   Deleted Attachment Destination : Move to Obsidian Trash.
+    *   At Symbol Linking :
+        *   Include @ symbol : no.
     *   Custom File Explorer Sorting :
         *   `sortspec.md`
             ```md
