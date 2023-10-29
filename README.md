@@ -6,9 +6,10 @@ Notion-like navigation plugin for Obsidian.
 
 ## Description
 
-In reading mode, this plugin dynamically adds a parent note list and a child note list around the opened note title.
+In reading mode, this plugin dynamically adds a parent note list and a child note list around the opened note title, so you can :
 
-This allows to quickly navigate up and down through the note hierarchy directly from the reading view, and also to create parent folder notes by simply clicking on them in the list.
+*   Quickly navigate up and down through the note hierarchy directly from the reading view.
+*   Create parent folder notes by simply clicking on them in the list.
 
 ## Installation
 
@@ -16,29 +17,36 @@ This allows to quickly navigate up and down through the note hierarchy directly 
 *   Copy `main.js`, `manifest.json` and `styles.css` inside this subfolder.
 *   Enable the Atlas plugin from the `Community plugins` settings panel.
 
-## Complementary plugins
+## Usage
 
-*   Local Images Plus (Sergei Korneev) :
-    *   Process all new markdown files : yes.
-    *   Process all new attachments : yes.
-    *   Use MD5 for new attachments : no.
-    *   Preserve link captions : yes.
-    *   Add original filename or Open file tag : no.
-    *   Include : .*\.md
-    *   How to write paths in tags : Relative to note.
-    *   Folder to save new attachments : Next to note in the folder specified below.
-    *   Media folder : ${notename)
-    *   Move/delete/rename media folder : yes.
-*   Fast Image Cleaner (Nathaniel).
-*   Custom File Explorer Sorting (SebastianMC) :
-    *   `sortspec.md`
-        ```
-        ---
-        sorting-spec: |
-          order-asc: a-z
-          target-folder: /*
-        ---
-        ```
+This plugin is best used :
+
+*   On a Notion vault converted to Obsidian with [Topaz](https://github.com/senselogic/TOPAZ) :
+    ```sh
+    topaz --fix-paths --fix-newlines --fix-video-links --fix-titles --fix-indexes NOTION_EXPORT_FOLDER/ OBSIDIAN_VAULT_FOLDER/
+    ```
+*   Along with the following Obsidian plugins :
+    *   Local Images Plus (Sergei Korneev) :
+        *   Process all new markdown files : yes.
+        *   Process all new attachments : yes.
+        *   Use MD5 for new attachments : no.
+        *   Preserve link captions : yes.
+        *   Add original filename or Open file tag : no.
+        *   Include : .*\.md
+        *   How to write paths in tags : Relative to note.
+        *   Folder to save new attachments : Next to note in the folder specified below.
+        *   Media folder : ${notename)
+        *   Move/delete/rename media folder : yes.
+    *   Fast Image Cleaner (Nathaniel).
+    *   Custom File Explorer Sorting (SebastianMC) :
+        *   `sortspec.md`
+            ```md
+            ---
+            sorting-spec: |
+              order-asc: a-z
+              target-folder: /*
+            ---
+            ```
 ## Limitations
 
 *   The folder note must have the same name as its folder.
