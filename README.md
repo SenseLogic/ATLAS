@@ -19,16 +19,19 @@ This allows to quickly navigate up and down through the note hierarchy directly 
 ## Complementary plugins
 
 *   Local Images Plus (Sergei Korneev) :
+    *   Process all new markdown files : yes.
+    *   Process all new attachments : yes.
     *   Use MD5 for new attachments : no.
     *   Preserve link captions : yes.
     *   Add original filename or Open file tag : no.
+    *   Include : .*\.md
     *   How to write paths in tags : Relative to note.
     *   Folder to save new attachments : Next to note in the folder specified below.
     *   Media folder : ${notename)
     *   Move/delete/rename media folder : yes.
-    *   Command Palette > Local Images Plus: Download all media files.
+*   Fast Image Cleaner (Nathaniel).
 *   Custom File Explorer Sorting (SebastianMC) :
-    *   Create `sortspec.md` :
+    *   `sortspec.md`
         ```
         ---
         sorting-spec: |
