@@ -39,8 +39,6 @@ This plugin is best used :
         *   Move/delete/rename media folder : yes.
     *   Fast Image Cleaner :
         *   Deleted Attachment Destination : Move to Obsidian Trash.
-    *   At Symbol Linking :
-        *   Include @ symbol : no.
     *   Custom File Explorer Sorting :
         *   `sortspec.md`
             ```md
@@ -50,6 +48,9 @@ This plugin is best used :
               target-folder: /*
             ---
             ```
+    *   At Symbol Linking :
+        *   Include @ symbol : no.
+
 ## Limitations
 
 *   The folder note must have the same name as its folder.
