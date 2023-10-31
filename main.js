@@ -160,6 +160,33 @@ module.exports = class Atlas extends Plugin
 
     // ~~
 
+    async createNewChildNote(
+        file
+        )
+    {
+        let folderPath = file.path.slice( 0, -3 );
+
+        if ( !this.app.vault.getAbstractFileByPath( folderPath ) )
+        {
+            await this.app.vault.createFolder( folderPath );
+        }
+
+        let noteName = 'New note.md';
+
+        for ( let noteIndex = 2;
+              this.app.vault.getAbstractFileByPath( folderPath + '/' + noteName );
+              ++noteIndex )
+        {
+            noteName = 'New note ' + noteIndex + '.md'
+        }
+
+        await this.app.vault.create( folderPath + '/' + noteName, '' );
+
+        this.app.workspace.openLinkText( noteName, folderPath, true );
+    }
+
+    // ~~
+
     getContentElement(
         )
     {
@@ -339,6 +366,26 @@ module.exports = class Atlas extends Plugin
         await this.loadSettings();
 
         this.titleElementByContentElementMap = {};
+
+        this.registerEvent(
+            this.app.workspace.on(
+                'file-menu',
+                ( menu, file ) =>
+                {
+                    if ( file.extension === 'md' )
+                    {
+                        menu.addItem(
+                            ( item ) =>
+                            {
+                                item.setTitle( 'New child note' )
+                                .setIcon( 'plus-with-circle' )
+                                .onClick( () => this.createNewChildNote( file ) );
+                            }
+                            );
+                    }
+                }
+                )
+            );
 
         this.app.workspace.onLayoutReady(
             () =>

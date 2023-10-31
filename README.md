@@ -10,6 +10,7 @@ In reading mode, this plugin dynamically adds a parent note list and a child not
 
 *   Quickly navigate up and down through the note hierarchy directly from the reading view.
 *   Create parent folder notes by simply clicking on them in the list.
+*   Create child notes through the "New child note" option of the opened note file menu (⋮).
 
 ## Installation
 
