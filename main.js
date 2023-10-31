@@ -29,16 +29,16 @@ class AtlasSettingTab
         containerEl.empty();
 
         new Setting( containerEl )
-            .setName( 'Parent link translation' )
+            .setName( 'Parent link height' )
             .addText(
                 text =>
                 text
-                    .setPlaceholder( '-1rem' )
-                    .setValue( this.plugin.settings.parentLinkTranslation )
+                    .setPlaceholder( '1.5rem' )
+                    .setValue( this.plugin.settings.parentLinkHeight )
                     .onChange(
                         async ( value ) =>
                         {
-                            this.plugin.settings.parentLinkTranslation = value;
+                            this.plugin.settings.parentLinkHeight = value;
                             await this.plugin.saveSettings();
                         }
                         )
@@ -139,7 +139,7 @@ module.exports = class Atlas extends Plugin
             = Object.assign(
                   {},
                   {
-                      parentLinkTranslation : '-1rem',
+                      parentLinkHeight : '1rem',
                       parentLinkFontSize: '0.8rem',
                       parentLinkGap: '0.5rem',
                       childLinkFontSize: '1rem',
@@ -290,10 +290,12 @@ module.exports = class Atlas extends Plugin
                                 let parentFileListElement = document.createElement( 'div' );
                                 parentFileListElement.id = 'atlas-plugin-file-list';
                                 parentFileListElement.style.display = 'flex';
+                                parentFileListElement.style.flexWrap = 'wrap';
                                 parentFileListElement.style.gap = this.settings.parentLinkGap;
                                 parentFileListElement.style.fontSize = this.settings.parentLinkFontSize;
-                                parentFileListElement.style.transform = 'translateY(' + this.settings.parentLinkTranslation + ')';
-                                parentFileListElement.style.position = 'absolute';
+                                parentFileListElement.style.transform = 'translateY(-' + this.settings.parentLinkHeight + ')';
+                                parentFileListElement.style.marginBottom = '-' + this.settings.parentLinkHeight;
+                                parentFileListElement.style.lineHeight = this.settings.parentLinkHeight;
 
                                 for ( let parentFolderIndex = parentFolderArray.length - 1;
                                       parentFolderIndex >= 0;
