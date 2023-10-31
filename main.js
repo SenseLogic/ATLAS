@@ -252,40 +252,40 @@ module.exports = class Atlas extends Plugin
 
                         if ( activeFilePath.endsWith( '.md' ) )
                         {
-                            let superFolderArray = [];
+                            let parentFolderArray = [];
 
                             if ( activeFile.parent )
                             {
-                                for ( let superFolder = activeFile.parent;
-                                      superFolder;
-                                      superFolder = superFolder.parent )
+                                for ( let parentFolder = activeFile.parent;
+                                      parentFolder;
+                                      parentFolder = parentFolder.parent )
                                 {
-                                    if ( superFolder.path !== '/' )
+                                    if ( parentFolder.path !== '/' )
                                     {
-                                        superFolderArray.push( superFolder );
+                                        parentFolderArray.push( parentFolder );
                                     }
                                 }
                             }
 
-                            let subFolderPath = activeFilePath.slice( 0, -3 );
-                            let subFolder = this.app.vault.getAbstractFileByPath( subFolderPath );
-                            let subFileArray = [];
+                            let childFolderPath = activeFilePath.slice( 0, -3 );
+                            let childFolder = this.app.vault.getAbstractFileByPath( childFolderPath );
+                            let childFileArray = [];
 
-                            if ( subFolder
-                                 && subFolder instanceof TFolder )
+                            if ( childFolder
+                                 && childFolder instanceof TFolder )
                             {
-                                for ( let file of subFolder.children )
+                                for ( let file of childFolder.children )
                                 {
                                     if ( file instanceof TFile
-                                         && file.parent === subFolder
+                                         && file.parent === childFolder
                                          && file.name.endsWith( '.md' ) )
                                     {
-                                        subFileArray.push( file );
+                                        childFileArray.push( file );
                                     }
                                 }
                             }
 
-                            if ( superFolderArray.length > 0 )
+                            if ( parentFolderArray.length > 0 )
                             {
                                 let parentFileListElement = document.createElement( 'div' );
                                 parentFileListElement.id = 'atlas-plugin-file-list';
@@ -295,25 +295,25 @@ module.exports = class Atlas extends Plugin
                                 parentFileListElement.style.transform = 'translateY(' + this.settings.parentLinkTranslation + ')';
                                 parentFileListElement.style.position = 'absolute';
 
-                                for ( let superFolderIndex = superFolderArray.length - 1;
-                                      superFolderIndex >= 0;
-                                      --superFolderIndex )
+                                for ( let parentFolderIndex = parentFolderArray.length - 1;
+                                      parentFolderIndex >= 0;
+                                      --parentFolderIndex )
                                 {
-                                    let superFolder = superFolderArray[ superFolderIndex ];
+                                    let parentFolder = parentFolderArray[ parentFolderIndex ];
 
                                     let linkElement = document.createElement( 'a' );
                                     linkElement.setAttribute( 'class', 'internal-link' );
-                                    linkElement.setAttribute( 'data-href', superFolder.path );
+                                    linkElement.setAttribute( 'data-href', parentFolder.path );
                                     linkElement.setAttribute( 'data-tooltip-position', 'top' );
-                                    linkElement.setAttribute( 'aria-label', superFolder.name );
-                                    linkElement.setAttribute( 'href', superFolder.path );
+                                    linkElement.setAttribute( 'aria-label', parentFolder.name );
+                                    linkElement.setAttribute( 'href', parentFolder.path );
                                     linkElement.setAttribute( 'rel', 'noopener' );
                                     linkElement.setAttribute( 'target', '_blank' );
-                                    linkElement.textContent = superFolder.name;
+                                    linkElement.textContent = parentFolder.name;
 
                                     parentFileListElement.appendChild( linkElement );
 
-                                    if ( superFolderIndex > 0 )
+                                    if ( parentFolderIndex > 0 )
                                     {
                                         let slashElement = document.createElement( 'span' );
                                         slashElement.textContent = '/';
@@ -324,7 +324,7 @@ module.exports = class Atlas extends Plugin
                                 titleElement.insertAdjacentElement( 'beforeBegin', parentFileListElement );
                             }
 
-                            if ( subFileArray.length > 0 )
+                            if ( childFileArray.length > 0 )
                             {
                                 let childFileListElement = document.createElement( 'div' );
                                 childFileListElement.id = 'atlas-plugin-file-list';
@@ -333,17 +333,17 @@ module.exports = class Atlas extends Plugin
                                 childFileListElement.style.gap = this.settings.childLinkGap;
                                 childFileListElement.style.fontSize = this.settings.childFontSize;
 
-                                for ( let subFile of subFileArray )
+                                for ( let childFile of childFileArray )
                                 {
                                     let linkElement = document.createElement( 'a' );
                                     linkElement.setAttribute( 'class', 'internal-link' );
-                                    linkElement.setAttribute( 'data-href', subFile.path );
+                                    linkElement.setAttribute( 'data-href', childFile.path );
                                     linkElement.setAttribute( 'data-tooltip-position', 'top' );
-                                    linkElement.setAttribute( 'aria-label', subFile.name );
-                                    linkElement.setAttribute( 'href', subFile.path );
+                                    linkElement.setAttribute( 'aria-label', childFile.name );
+                                    linkElement.setAttribute( 'href', childFile.path );
                                     linkElement.setAttribute( 'rel', 'noopener' );
                                     linkElement.setAttribute( 'target', '_blank' );
-                                    linkElement.textContent = subFile.name.slice( 0, -3 );
+                                    linkElement.textContent = childFile.name.slice( 0, -3 );
                                     childFileListElement.appendChild( linkElement );
                                 }
 
