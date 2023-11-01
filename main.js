@@ -241,7 +241,8 @@ module.exports = class Atlas extends Plugin
                 {
                     let mode = app.workspace.activeLeaf?.getViewState()?.state?.mode;
 
-                    if ( mode === 'preview' )
+                    if ( mode === 'source'
+                         || mode == 'preview' )
                     {
                         this.titleElementByContentElementMap[ contentElement ] = titleElement;
                         this.removeTitleElements();
@@ -312,6 +313,15 @@ module.exports = class Atlas extends Plugin
                                     linkElement.setAttribute( 'target', '_blank' );
                                     linkElement.textContent = parentFolder.name;
 
+                                    if ( mode === 'source' )
+                                    {
+                                        linkElement.onclick =
+                                            () =>
+                                            {
+                                                this.app.workspace.openLinkText( parentFolder.name, parentFolder.path + '.md', true );
+                                            };
+                                    }
+
                                     parentFileListElement.appendChild( linkElement );
 
                                     if ( parentFolderIndex > 0 )
@@ -345,6 +355,16 @@ module.exports = class Atlas extends Plugin
                                     linkElement.setAttribute( 'rel', 'noopener' );
                                     linkElement.setAttribute( 'target', '_blank' );
                                     linkElement.textContent = childFile.name.slice( 0, -3 );
+
+                                    if ( mode === 'source' )
+                                    {
+                                        linkElement.onclick =
+                                            () =>
+                                            {
+                                                this.app.workspace.openLinkText( childFile.name, childFile.path, true );
+                                            };
+                                    }
+
                                     childFileListElement.appendChild( linkElement );
                                 }
 
