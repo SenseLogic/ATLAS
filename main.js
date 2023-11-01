@@ -239,12 +239,11 @@ module.exports = class Atlas extends Plugin
 
                 if ( titleElement )
                 {
-                    this.titleElementByContentElementMap[ contentElement ] = titleElement;
-
                     let mode = app.workspace.activeLeaf?.getViewState()?.state?.mode;
 
                     if ( mode === 'preview' )
                     {
+                        this.titleElementByContentElementMap[ contentElement ] = titleElement;
                         this.removeTitleElements();
 
                         let activeFile = this.app.workspace.getActiveFile();

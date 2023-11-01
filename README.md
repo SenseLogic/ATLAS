@@ -26,7 +26,7 @@ This plugin is best used :
     ```sh
     topaz --fix-paths --fix-newlines --fix-video-links --fix-titles --fix-indexes NOTION_EXPORT_FOLDER/ OBSIDIAN_VAULT_FOLDER/
     ```
-*   Along with the following Obsidian plugins :
+*   Along with the following companion plugins :
     *   Local Images Plus :
         *   Process all new markdown files : yes.
         *   Process all new attachments : yes.
@@ -39,7 +39,7 @@ This plugin is best used :
         *   Media folder : ${notename)
         *   Move/delete/rename media folder : yes.
     *   Fast Image Cleaner :
-        *   Deleted Attachment Destination : Move to Obsidian Trash.
+        *   Deleted Attachment Destination : Move to System Trash.
     *   Custom File Explorer Sorting :
         *   `sortspec.md`
             ```md
@@ -49,6 +49,7 @@ This plugin is best used :
               target-folder: /*
             ---
             ```
+    *   Reveal Active File Button.
     *   At Symbol Linking :
         *   Include @ symbol : no.
 
