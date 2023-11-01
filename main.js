@@ -318,7 +318,7 @@ module.exports = class Atlas extends Plugin
                                         linkElement.onclick =
                                             () =>
                                             {
-                                                this.app.workspace.openLinkText( parentFolder.name, parentFolder.path + '.md', true );
+                                                this.app.workspace.openLinkText( parentFolder.name, parentFolder.path + '.md', false );
                                             };
                                     }
 
@@ -361,7 +361,7 @@ module.exports = class Atlas extends Plugin
                                         linkElement.onclick =
                                             () =>
                                             {
-                                                this.app.workspace.openLinkText( childFile.name, childFile.path, true );
+                                                this.app.workspace.openLinkText( childFile.name, childFile.path, false );
                                             };
                                     }
 
