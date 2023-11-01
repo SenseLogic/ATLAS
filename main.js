@@ -241,8 +241,7 @@ module.exports = class Atlas extends Plugin
                 {
                     let mode = app.workspace.activeLeaf?.getViewState()?.state?.mode;
 
-                    if ( mode === 'source'
-                         || mode == 'preview' )
+                    if ( mode == 'preview' )
                     {
                         this.titleElementByContentElementMap[ contentElement ] = titleElement;
                         this.removeTitleElements();
@@ -285,7 +284,7 @@ module.exports = class Atlas extends Plugin
                                 }
                             }
 
-                            if ( parentFolderArray.length > 0 )
+                            if ( parentFolderArray.length >= 0 )
                             {
                                 let parentFileListElement = document.createElement( 'div' );
                                 parentFileListElement.id = 'atlas-plugin-file-list';
@@ -315,11 +314,14 @@ module.exports = class Atlas extends Plugin
 
                                     if ( mode === 'source' )
                                     {
-                                        linkElement.onclick =
+                                        this.registerDomEvent(
+                                            linkElement,
+                                            'click',
                                             () =>
                                             {
                                                 this.app.workspace.openLinkText( parentFolder.name, parentFolder.path + '.md', false );
-                                            };
+                                            }
+                                            );
                                     }
 
                                     parentFileListElement.appendChild( linkElement );
@@ -331,6 +333,43 @@ module.exports = class Atlas extends Plugin
                                         parentFileListElement.appendChild( slashElement );
                                     }
                                 }
+
+                                let buttonElement = document.createElement( 'div' );
+                                buttonElement.style.marginLeft= 'auto';
+                                buttonElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="18" height="18" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M22 12h-4"/><path d="M6 12H2"/><path d="M12 6V2"/><path d="M12 22v-4"/></g></svg>';
+
+                                let svgElement = buttonElement.querySelector( 'svg' );
+                                svgElement.style.height = this.settings.parentLinkFontSize;
+                                svgElement.style.width = this.settings.parentLinkFontSize;
+
+                                this.registerDomEvent(
+                                    buttonElement,
+                                    'click',
+                                    () =>
+                                    {
+                                        this.app.commands.executeCommandById( 'file-explorer:reveal-active-file' );
+                                    }
+                                    );
+
+                                parentFileListElement.appendChild( buttonElement );
+
+                                buttonElement = document.createElement( 'div' );
+                                buttonElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>';
+
+                                svgElement = buttonElement.querySelector( 'svg' );
+                                svgElement.style.height = this.settings.parentLinkFontSize;
+                                svgElement.style.width = this.settings.parentLinkFontSize;
+
+                                this.registerDomEvent(
+                                    buttonElement,
+                                    'click',
+                                    () =>
+                                    {
+                                        this.createNewChildNote( activeFile );
+                                    }
+                                    );
+
+                                parentFileListElement.appendChild( buttonElement );
 
                                 titleElement.insertAdjacentElement( 'beforeBegin', parentFileListElement );
                             }
@@ -358,11 +397,14 @@ module.exports = class Atlas extends Plugin
 
                                     if ( mode === 'source' )
                                     {
-                                        linkElement.onclick =
+                                        this.registerDomEvent(
+                                            linkElement,
+                                            'click',
                                             () =>
                                             {
                                                 this.app.workspace.openLinkText( childFile.name, childFile.path, false );
-                                            };
+                                            }
+                                            );
                                     }
 
                                     childFileListElement.appendChild( linkElement );
