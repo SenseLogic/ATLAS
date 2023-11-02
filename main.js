@@ -236,7 +236,8 @@ module.exports = class Atlas extends Plugin
 
                 if ( titleElement )
                 {
-                    let mode = app.workspace.activeLeaf?.getViewState()?.state?.mode;
+                    let activeLeaf = app.workspace.activeLeaf;
+                    let mode = activeLeaf?.getViewState()?.state?.mode;
 
                     if ( mode === 'source'
                          || mode === 'preview' )
@@ -346,6 +347,27 @@ module.exports = class Atlas extends Plugin
                                     () =>
                                     {
                                         this.app.commands.executeCommandById( 'file-explorer:reveal-active-file' );
+
+                                        setTimeout(
+                                            () =>
+                                            {
+                                                this.app.commands.executeCommandById( 'file-explorer:reveal-active-file' );
+                                            },
+                                            50
+                                            );
+
+                                        setTimeout(
+                                            () =>
+                                            {
+                                                this.app.workspace.setActiveLeaf(
+                                                    activeLeaf,
+                                                    {
+                                                        focus: true,
+                                                    }
+                                                    );
+                                            },
+                                            200
+                                            );
                                     }
                                     );
 
