@@ -215,18 +215,15 @@ module.exports = class Atlas extends Plugin
 
     // ~~
 
-    clearTitle(
-        )
-    {
-        this.titleElementByContentElementMap = {};
-        this.removeTitleElements();
-    }
-
-    // ~~
-
     updateTitle(
+        eventName
         )
     {
+        if ( eventName !== undefined )
+        {
+            this.titleElementByContentElementMap = {};
+        }
+
         let contentElement = this.getContentElement();
 
         if ( contentElement )
@@ -241,7 +238,8 @@ module.exports = class Atlas extends Plugin
                 {
                     let mode = app.workspace.activeLeaf?.getViewState()?.state?.mode;
 
-                    if ( mode == 'preview' )
+                    if ( mode === 'source'
+                         || mode === 'preview' )
                     {
                         this.titleElementByContentElementMap[ contentElement ] = titleElement;
                         this.removeTitleElements();
@@ -453,75 +451,65 @@ module.exports = class Atlas extends Plugin
         this.app.workspace.onLayoutReady(
             () =>
             {
-                this.clearTitle();
+                this.updateTitle( 'layout-ready' );
+
+                this.registerEvent(
+                    this.app.workspace.on(
+                        'window-open',
+                        () =>
+                        {
+                            this.updateTitle( 'window-open' );
+                        }
+                        )
+                    );
+
+                this.registerEvent(
+                    this.app.workspace.on(
+                        'file-open',
+                        () =>
+                        {
+                            this.updateTitle( 'file-open' );
+                        }
+                        )
+                    );
+
+                this.registerEvent(
+                    this.app.workspace.on(
+                        'active-leaf-change',
+                        () =>
+                        {
+                            this.updateTitle( 'active-leaf-change' );
+                        }
+                        )
+                    );
+
+                this.registerEvent(
+                    this.app.workspace.on(
+                        'layout-change',
+                        () =>
+                        {
+                            this.updateTitle( 'layout-change' );
+                        }
+                        )
+                    );
+
+                this.registerEvent(
+                    this.app.workspace.on(
+                        'css-change',
+                        () =>
+                        {
+                            this.updateTitle( 'css-change' );
+                        }
+                        )
+                    );
+
+                this.registerInterval(
+                    window.setInterval(
+                        () => this.updateTitle(),
+                        parseInt( this.settings.updateInterval )
+                        )
+                    );
             }
-            );
-
-        this.registerEvent(
-            this.app.workspace.on(
-                'window-open',
-                () =>
-                {
-                    this.clearTitle();
-                }
-                )
-            );
-
-        this.registerEvent(
-            this.app.workspace.on(
-                'file-open',
-                () =>
-                {
-                    this.clearTitle();
-                }
-                )
-            );
-
-        this.registerEvent(
-            this.app.workspace.on(
-                'editor-change',
-                () =>
-                {
-                    this.clearTitle();
-                }
-                )
-            );
-
-        this.registerEvent(
-            this.app.workspace.on(
-                'layout-change',
-                () =>
-                {
-                    this.clearTitle();
-                }
-                )
-            );
-
-        this.registerEvent(
-            this.app.workspace.on(
-                'css-change',
-                () =>
-                {
-                    this.clearTitle();
-                }
-                )
-            );
-
-        this.registerEvent(
-            this.app.workspace.on(
-                'active-leaf-change',
-                () =>
-                {
-                    this.clearTitle();
-                }
-                )
-            );
-
-        this.registerInterval(
-            window.setInterval(
-                () => this.updateTitle(),
-                parseInt( this.settings.updateInterval )
-                )
             );
 
         this.addSettingTab(
