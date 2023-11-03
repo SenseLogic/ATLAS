@@ -287,13 +287,13 @@ module.exports = class Atlas extends Plugin
                             {
                                 let parentFileListElement = document.createElement( 'div' );
                                 parentFileListElement.id = 'atlas-plugin-file-list';
+                                parentFileListElement.style.marginBottom = '-' + this.settings.parentLinkHeight;
                                 parentFileListElement.style.display = 'flex';
                                 parentFileListElement.style.flexWrap = 'wrap';
                                 parentFileListElement.style.gap = this.settings.parentLinkGap;
+                                parentFileListElement.style.lineHeight = this.settings.parentLinkHeight;
                                 parentFileListElement.style.fontSize = this.settings.parentLinkFontSize;
                                 parentFileListElement.style.transform = 'translateY(-' + this.settings.parentLinkHeight + ')';
-                                parentFileListElement.style.marginBottom = '-' + this.settings.parentLinkHeight;
-                                parentFileListElement.style.lineHeight = this.settings.parentLinkHeight;
 
                                 for ( let parentFolderIndex = parentFolderArray.length - 1;
                                       parentFolderIndex >= 0;
@@ -398,6 +398,7 @@ module.exports = class Atlas extends Plugin
                             {
                                 let childFileListElement = document.createElement( 'div' );
                                 childFileListElement.id = 'atlas-plugin-file-list';
+                                childFileListElement.style.marginBottom = this.settings.childLinkGap;
                                 childFileListElement.style.display = 'flex';
                                 childFileListElement.style.flexDirection = 'column';
                                 childFileListElement.style.gap = this.settings.childLinkGap;
@@ -429,6 +430,10 @@ module.exports = class Atlas extends Plugin
 
                                     childFileListElement.appendChild( linkElement );
                                 }
+
+                                let separatorElement = document.createElement( 'hr' );
+                                separatorElement.style.marginTop = '0.5rem';
+                                childFileListElement.appendChild( separatorElement );
 
                                 titleElement.insertAdjacentElement( 'afterEnd', childFileListElement );
                             }
