@@ -6,7 +6,7 @@ Notion-like navigation plugin for Obsidian.
 
 ## Description
 
-This plugin emulates Notion's navigation by allowing to :
+This plugin emulates Notion's behavior by allowing to :
 *   open and create parent notes from the editing view;
 *   open the child notes from the editing view;
 *   reveal the current note from the editing view;
@@ -53,8 +53,8 @@ This plugin is best used :
 ## Limitations
 
 *   The folder note must have the same name as its folder.
-*   The lists appear after the note content.
-*   The new sort order is only applied when Obsidian is restarted.
+*   The parent and child note lists appear after the note content.
+*   The sort order is updated when Obsidian is restarted.
 
 ## Version
 
