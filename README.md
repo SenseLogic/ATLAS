@@ -6,7 +6,7 @@ Notion-like navigation plugin for Obsidian.
 
 ## Description
 
-In reading mode, this plugin dynamically adds a parent note list and a child note list around the note title, so you can :
+This plugin dynamically adds a parent note list and a child note list around the note title, so you can :
 
 *   Quickly navigate up and down through the note hierarchy directly from the reading view.
 *   Reveal the current note in the folder view through a dedicated icon.
@@ -23,7 +23,7 @@ In reading mode, this plugin dynamically adds a parent note list and a child not
 
 This plugin is best used :
 
-*   On a Notion vault converted to Obsidian with [Topaz](https://github.com/senselogic/TOPAZ) :
+*   On a Notion vault converted with [Topaz](https://github.com/senselogic/TOPAZ) :
     ```sh
     topaz --fix-paths --fix-newlines --fix-video-links --fix-titles --fix-indexes NOTION_EXPORT_FOLDER/ OBSIDIAN_VAULT_FOLDER/
     ```
@@ -41,15 +41,6 @@ This plugin is best used :
         *   Move/delete/rename media folder : yes.
     *   Fast Image Cleaner :
         *   Deleted Attachment Destination : Move to System Trash.
-    *   Custom File Explorer Sorting :
-        *   `sortspec.md`
-            ```md
-            ---
-            sorting-spec: |
-              order-asc: a-z
-              target-folder: /*
-            ---
-            ```
     *   At Symbol Linking :
         *   Include @ symbol : no.
 
@@ -57,6 +48,7 @@ This plugin is best used :
 
 *   The folder note must have the same name as its folder.
 *   The lists appear after the note content.
+*   The new sort order is only applied when Obsidian is restarted.
 
 ## Version
 

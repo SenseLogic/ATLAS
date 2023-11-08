@@ -2,6 +2,82 @@
 
 const { MarkdownView, Plugin, PluginSettingTab, Setting, TFile, TFolder } = require( 'obsidian' );
 
+// -- FUNCTIONS
+
+function getAscendingNameChildComparison(
+    firstChild,
+    secondChild
+    )
+{
+    return firstChild.file.path.localeCompare( secondChild.file.path, undefined, { numeric: true } );
+}
+
+// ~~
+
+function getDescendingNameChildComparison(
+    firstChild,
+    secondChild
+    )
+{
+    return -getAscendingNameChildComparison( firstChild, secondChild );
+}
+
+// ~~
+
+function getAscendingModificationTimeChildComparison(
+    firstChild,
+    secondChild
+    )
+{
+    if ( firstChild.file.stat
+         && secondChild.file.stat )
+    {
+        return firstChild.file.stat.mtime - secondChild.file.stat.mtime;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+// ~~
+
+function getDescendingModificationTimeChildComparison(
+    firstChild,
+    secondChild
+    )
+{
+    return -getModificationTimeChildComparison( firstChild, secondChild );
+}
+
+// ~~
+
+function getAscendingCreationTimeChildComparison(
+    firstChild,
+    secondChild
+    )
+{
+    if ( firstChild.file.stat
+         && secondChild.file.stat )
+    {
+        return firstChild.file.stat.ctime - secondChild.file.stat.ctime;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+// ~~
+
+function getDescendingCreationTimeChildComparison(
+    firstChild,
+    secondChild
+    )
+{
+    return -getCreationTimeChildComparison( firstChild, secondChild );
+}
+
 // -- TYPES
 
 class AtlasSettingTab
@@ -123,6 +199,28 @@ class AtlasSettingTab
                         }
                         )
                 );
+
+        new Setting( containerEl )
+            .setName( 'Sort order' )
+            .addDropdown(
+                ( dropdown ) =>
+                dropdown
+                    .addOption( 'system', 'System' )
+                    .addOption( 'ascendingName', 'Ascending name' )
+                    .addOption( 'descendingName', 'Descending name' )
+                    .addOption( 'ascendingModificationTime', 'Ascending modification time' )
+                    .addOption( 'descendingModificationTime', 'Descending  modification time' )
+                    .addOption( 'ascendingCreationTime', 'Ascending creation time' )
+                    .addOption( 'descendingCreationTime', 'Descending creation time' )
+                    .setValue( this.plugin.settings.sortOrder )
+                    .onChange(
+                        async ( value ) =>
+                        {
+                            this.plugin.settings.sortOrder = value;
+                            await this.plugin.saveSettings();
+                        }
+                        )
+                );
     }
 }
 
@@ -144,7 +242,8 @@ module.exports = class Atlas extends Plugin
                       parentLinkGap: '0.5rem',
                       childLinkFontSize: '1rem',
                       childLinkGap: '1rem',
-                      updateInterval: '250'
+                      updateInterval: '250',
+                      sortOrder : 'ascendingName'
                   },
                   await this.loadData()
                   );
@@ -177,7 +276,7 @@ module.exports = class Atlas extends Plugin
               this.app.vault.getAbstractFileByPath( folderPath + '/' + noteName );
               ++noteIndex )
         {
-            noteName = 'New note ' + noteIndex + '.md'
+            noteName = 'New note ' + noteIndex + '.md';
         }
 
         await this.app.vault.create( folderPath + '/' + noteName, '' );
@@ -281,6 +380,11 @@ module.exports = class Atlas extends Plugin
                                         childFileArray.push( file );
                                     }
                                 }
+
+                                childFileArray.sort(
+                                    ( firstFile, secondFile ) =>
+                                    firstFile.name.localeCompare( secondFile.name, undefined, { numeric: true } )
+                                    );
                             }
 
                             if ( parentFolderArray.length >= 0 )
@@ -446,6 +550,89 @@ module.exports = class Atlas extends Plugin
 
     // ~~
 
+    updateFileExplorer(
+        )
+    {
+        let fileExplorer = app.workspace.getLeavesOfType( "file-explorer" )?.first()?.view;
+
+        if ( fileExplorer )
+        {
+            let sortOrder = this.settings.sortOrder;
+
+            if ( sortOrder !== 'system' )
+            {
+                let getChildComparisonFunction;
+
+                if ( sortOrder == 'ascendingName' )
+                {
+                    getChildComparisonFunction = getAscendingNameChildComparison;
+                }
+                else if ( sortOrder == 'descendingName' )
+                {
+                    getChildComparisonFunction = getDescendingNameChildComparison;
+                }
+                else if ( sortOrder === 'ascendingModificationTime' )
+                {
+                    getChildComparisonFunction = getAscendingModificationTimeChildComparison;
+                }
+                else if ( sortOrder === 'descendingModificationTime' )
+                {
+                    getChildComparisonFunction = getDescendingModificationTimeChildComparison;
+                }
+                else if ( sortOrder === 'ascendingCreationTime' )
+                {
+                    getChildComparisonFunction = getAscendingCreationTimeChildComparison;
+                }
+                else if ( sortOrder === 'descendingCreationTime' )
+                {
+                    getChildComparisonFunction = getDescendingCreationTimeChildComparison;
+                }
+                else
+                {
+                    console.warn( 'Invalid sort order : ', sortOrder );
+
+                    return;
+                }
+
+                for ( let fileItem of Object.values( fileExplorer.fileItems ) )
+                {
+                    if ( fileItem.vChildren?._children
+                         && fileItem.vChildren._children.length > 1 )
+                    {
+                        let childArray = [];
+
+                        for ( let child of fileItem.vChildren._children )
+                        {
+                            childArray.push( child );
+                        }
+
+                        childArray.sort(
+                            ( firstChild, secondChild ) =>
+                            {
+                                if ( firstChild.file.path === secondChild.file.path + '.md' )
+                                {
+                                    return -1;
+                                }
+                                else if ( secondChild.file.path === firstChild.file.path + '.md' )
+                                {
+                                    return 1;
+                                }
+                                else
+                                {
+                                    return getChildComparisonFunction( firstChild, secondChild );
+                                }
+                            }
+                            );
+
+                        fileItem.vChildren.setChildren( childArray );
+                    }
+                }
+            }
+        }
+    }
+
+    // ~~
+
     async onload(
         )
     {
@@ -486,6 +673,7 @@ module.exports = class Atlas extends Plugin
                         () =>
                         {
                             this.updateTitle( 'window-open' );
+                            this.updateFileExplorer();
                         }
                         )
                     );
@@ -496,6 +684,7 @@ module.exports = class Atlas extends Plugin
                         () =>
                         {
                             this.updateTitle( 'file-open' );
+                            this.updateFileExplorer();
                         }
                         )
                     );
@@ -506,6 +695,7 @@ module.exports = class Atlas extends Plugin
                         () =>
                         {
                             this.updateTitle( 'active-leaf-change' );
+                            this.updateFileExplorer();
                         }
                         )
                     );
@@ -516,16 +706,29 @@ module.exports = class Atlas extends Plugin
                         () =>
                         {
                             this.updateTitle( 'layout-change' );
+                            this.updateFileExplorer();
                         }
                         )
                     );
 
                 this.registerEvent(
                     this.app.workspace.on(
-                        'css-change',
+                        'rename',
                         () =>
                         {
-                            this.updateTitle( 'css-change' );
+                            this.updateTitle( 'rename' );
+                            this.updateFileExplorer();
+                        }
+                        )
+                    );
+
+                this.registerEvent(
+                    this.app.workspace.on(
+                        'delete',
+                        () =>
+                        {
+                            this.updateTitle( 'delete' );
+                            this.updateFileExplorer();
                         }
                         )
                     );
