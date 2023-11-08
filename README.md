@@ -6,12 +6,20 @@ Notion-like navigation plugin for Obsidian.
 
 ## Description
 
-This plugin dynamically adds a parent note list and a child note list around the note title, so you can :
+This plugin allows to :
 
-*   Quickly navigate up and down through the note hierarchy directly from the reading view.
-*   Reveal the current note in the folder view through a dedicated icon.
-*   Create parent folder notes by simply clicking on them in the list.
-*   Create child notes through a dedicated icon or the "New child note" file menu option.
+*   open parent notes from the editing view;
+*   open the child notes from the editing view;
+*   reveal the current note from the editing view;
+*   create parent notes from the editing view;
+*   create child notes from the editing view and the contextual file menu;
+*   keep the folder and its note together when sorting them in :
+    *   natural order;
+    *   reverse natural order;
+    *   creation time order;
+    *   reverse creation time order;
+    *   modification time order;
+    *   reverse modification time order.
 
 ## Installation
 

@@ -24,34 +24,6 @@ function getDescendingNameChildComparison(
 
 // ~~
 
-function getAscendingModificationTimeChildComparison(
-    firstChild,
-    secondChild
-    )
-{
-    if ( firstChild.file.stat
-         && secondChild.file.stat )
-    {
-        return firstChild.file.stat.mtime - secondChild.file.stat.mtime;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-// ~~
-
-function getDescendingModificationTimeChildComparison(
-    firstChild,
-    secondChild
-    )
-{
-    return -getModificationTimeChildComparison( firstChild, secondChild );
-}
-
-// ~~
-
 function getAscendingCreationTimeChildComparison(
     firstChild,
     secondChild
@@ -76,6 +48,34 @@ function getDescendingCreationTimeChildComparison(
     )
 {
     return -getCreationTimeChildComparison( firstChild, secondChild );
+}
+
+// ~~
+
+function getAscendingModificationTimeChildComparison(
+    firstChild,
+    secondChild
+    )
+{
+    if ( firstChild.file.stat
+         && secondChild.file.stat )
+    {
+        return firstChild.file.stat.mtime - secondChild.file.stat.mtime;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+// ~~
+
+function getDescendingModificationTimeChildComparison(
+    firstChild,
+    secondChild
+    )
+{
+    return -getModificationTimeChildComparison( firstChild, secondChild );
 }
 
 // -- TYPES
@@ -208,10 +208,10 @@ class AtlasSettingTab
                     .addOption( 'system', 'System' )
                     .addOption( 'ascendingName', 'Ascending name' )
                     .addOption( 'descendingName', 'Descending name' )
-                    .addOption( 'ascendingModificationTime', 'Ascending modification time' )
-                    .addOption( 'descendingModificationTime', 'Descending  modification time' )
                     .addOption( 'ascendingCreationTime', 'Ascending creation time' )
                     .addOption( 'descendingCreationTime', 'Descending creation time' )
+                    .addOption( 'ascendingModificationTime', 'Ascending modification time' )
+                    .addOption( 'descendingModificationTime', 'Descending  modification time' )
                     .setValue( this.plugin.settings.sortOrder )
                     .onChange(
                         async ( value ) =>
@@ -571,14 +571,6 @@ module.exports = class Atlas extends Plugin
                 {
                     getChildComparisonFunction = getDescendingNameChildComparison;
                 }
-                else if ( sortOrder === 'ascendingModificationTime' )
-                {
-                    getChildComparisonFunction = getAscendingModificationTimeChildComparison;
-                }
-                else if ( sortOrder === 'descendingModificationTime' )
-                {
-                    getChildComparisonFunction = getDescendingModificationTimeChildComparison;
-                }
                 else if ( sortOrder === 'ascendingCreationTime' )
                 {
                     getChildComparisonFunction = getAscendingCreationTimeChildComparison;
@@ -586,6 +578,14 @@ module.exports = class Atlas extends Plugin
                 else if ( sortOrder === 'descendingCreationTime' )
                 {
                     getChildComparisonFunction = getDescendingCreationTimeChildComparison;
+                }
+                else if ( sortOrder === 'ascendingModificationTime' )
+                {
+                    getChildComparisonFunction = getAscendingModificationTimeChildComparison;
+                }
+                else if ( sortOrder === 'descendingModificationTime' )
+                {
+                    getChildComparisonFunction = getDescendingModificationTimeChildComparison;
                 }
                 else
                 {
