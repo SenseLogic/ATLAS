@@ -7,13 +7,11 @@ Notion-like navigation plugin for Obsidian.
 ## Description
 
 This plugin emulates Notion's navigation by allowing to :
-
 *   open and create parent notes from the editing view;
 *   open the child notes from the editing view;
 *   reveal the current note from the editing view;
 *   create child notes from the editing view and the contextual file menu;
 *   sort folders and their notes together in :
-
     *   natural alphabetical order;
     *   reverse natural alphabetical order;
     *   creation time order;
@@ -35,7 +33,7 @@ This plugin is best used :
     ```sh
     topaz --fix-paths --fix-newlines --fix-video-links --fix-titles --fix-indexes NOTION_EXPORT_FOLDER/ OBSIDIAN_VAULT_FOLDER/
     ```
-*   Along with the following companion plugins :
+*   With those companion plugins :
     *   Local Images Plus :
         *   Process all new markdown files : yes.
         *   Process all new attachments : yes.
