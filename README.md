@@ -13,6 +13,7 @@ This plugin emulates Notion's navigation by allowing to :
 *   reveal the current note from the editing view;
 *   create child notes from the editing view and the contextual file menu;
 *   sort folders and their notes together in :
+
     *   natural alphabetical order;
     *   reverse natural alphabetical order;
     *   creation time order;
