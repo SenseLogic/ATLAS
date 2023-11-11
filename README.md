@@ -11,7 +11,7 @@ This plugin emulates Notion's behavior by allowing to :
 *   open the child notes from a link list in the editing view;
 *   reveal the current note from a button the editing view;
 *   create note folders and child notes from a button in the editing view and from an entry in the file contextual menu;
-*   keep notes and their folder sorted together in :
+*   keep notes and their folders sorted together in :
     *   natural alphabetical order;
     *   reverse natural alphabetical order;
     *   creation time order;
