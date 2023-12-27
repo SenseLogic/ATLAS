@@ -105,11 +105,59 @@ class AtlasSettingTab
         containerEl.empty();
 
         new Setting( containerEl )
+            .setName( 'Parent link background color' )
+            .addText(
+                text =>
+                text
+                    .setPlaceholder( '#FAFAFA' )
+                    .setValue( this.plugin.settings.parentLinkBackgroundColor )
+                    .onChange(
+                        async ( value ) =>
+                        {
+                            this.plugin.settings.parentLinkBackgroundColor = value;
+                            await this.plugin.saveSettings();
+                        }
+                        )
+                );
+
+        new Setting( containerEl )
+            .setName( 'Parent link translation' )
+            .addText(
+                text =>
+                text
+                    .setPlaceholder( '-2rem' )
+                    .setValue( this.plugin.settings.parentLinkTranslation )
+                    .onChange(
+                        async ( value ) =>
+                        {
+                            this.plugin.settings.parentLinkTranslation = value;
+                            await this.plugin.saveSettings();
+                        }
+                        )
+                );
+
+        new Setting( containerEl )
+            .setName( 'Parent link padding' )
+            .addText(
+                text =>
+                text
+                    .setPlaceholder( '0.5rem' )
+                    .setValue( this.plugin.settings.parentLinkPadding )
+                    .onChange(
+                        async ( value ) =>
+                        {
+                            this.plugin.settings.parentLinkPadding = value;
+                            await this.plugin.saveSettings();
+                        }
+                        )
+                );
+
+        new Setting( containerEl )
             .setName( 'Parent link height' )
             .addText(
                 text =>
                 text
-                    .setPlaceholder( '1.5rem' )
+                    .setPlaceholder( '1rem' )
                     .setValue( this.plugin.settings.parentLinkHeight )
                     .onChange(
                         async ( value ) =>
@@ -237,6 +285,9 @@ module.exports = class Atlas extends Plugin
             = Object.assign(
                   {},
                   {
+                      parentLinkBackgroundColor : '#FAFAFA',
+                      parentLinkTranslation : '-2rem',
+                      parentLinkPadding : '0.5rem',
                       parentLinkHeight : '1rem',
                       parentLinkFontSize: '0.8rem',
                       parentLinkGap: '0.5rem',
@@ -409,9 +460,14 @@ module.exports = class Atlas extends Plugin
                                 parentFileListElement.style.display = 'flex';
                                 parentFileListElement.style.flexWrap = 'wrap';
                                 parentFileListElement.style.gap = this.settings.parentLinkGap;
+                                parentFileListElement.style.position = 'sticky';
+                                parentFileListElement.style.top = '0';
+                                parentFileListElement.style.zIndex = '1';
+                                parentFileListElement.style.paddingBottom = this.settings.parentLinkPadding;
+                                parentFileListElement.style.backgroundColor = this.settings.parentLinkBackgroundColor;
                                 parentFileListElement.style.lineHeight = this.settings.parentLinkHeight;
                                 parentFileListElement.style.fontSize = this.settings.parentLinkFontSize;
-                                parentFileListElement.style.transform = 'translateY(-' + this.settings.parentLinkHeight + ')';
+                                parentFileListElement.style.transform = 'translateY(' + this.settings.parentLinkTranslation + ')';
 
                                 for ( let parentFolderIndex = parentFolderArray.length - 1;
                                       parentFolderIndex >= 0;
