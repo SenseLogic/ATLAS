@@ -2,8 +2,8 @@
     "id": "atlas",
     "name": "Atlas",
     "version": "1.0.0",
-    "minAppVersion": "1.0.9",
-    "description": "Navigation header.",
+    "minAppVersion": "1.0.0",
+    "description": "Notion-like navigation.",
     "author": "SenseLogic",
     "authorUrl": "https://github.com/senselogic/",
     "isDesktopOnly": false
