@@ -67,6 +67,12 @@ This plugin is best used :
 *   The parent and child note lists appear after the note content.
 *   The sort order is updated when Obsidian is restarted.
 
+## Known issues
+
+Due to technical problems with Obsidian's event handling system :
+*   the child note list is not always immediately refreshed;
+*   The note links and buttons are not always immediately reactive.
+
 ## Version
 
 1.0
