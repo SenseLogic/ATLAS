@@ -10,17 +10,17 @@ Notion-like navigation plugin for Obsidian.
 
 ## Description
 
-This plugin allows to emulate Notion's navigation behavior by  :
-*   adding a persistent bar over the title with :
+This plugin allows to emulate Notion's navigation behavior by :
+*   Adding a persistent bar over the title with :
     *   a breadcrumb to open and create parent notes;
     *   a button to reveal the current note in the tree view;
     *   a button to create the note folder;
     *   a button to create a child note.
-*   adding a child note link list below the title, sorted in alphabetical order;
-*   adding a tree view contextual menu option to :
+*   Adding a child note link list below the title, sorted in alphabetical order.
+*   Adding a tree view contextual menu option to :
     *   create a note folder;
     *   create a child note.
-*   keeping the note and its folder together in the tree view, sorted in :
+*   Keeping the note and its folder together in the tree view, sorted in :
     *   natural alphabetical order;
     *   reverse natural alphabetical order;
     *   creation time order;
