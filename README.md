@@ -69,9 +69,9 @@ This plugin is best used :
 
 ## Known issues
 
-Due to technical issues with Obsidian's event handling system :
-*   the child note list is not always immediately refreshed;
-*   The note links and buttons are not always immediately effective.
+Due to the way Obsidian handles events :
+*   The child note list may not be immediately refreshed;
+*   The note links and buttons may sometimes need a second click.
 
 ## Version
 
