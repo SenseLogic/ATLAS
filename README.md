@@ -4,7 +4,9 @@
 
 Notion-like navigation plugin for Obsidian.
 
-![](https://github.com/senselogic/ATLAS/blob/master/SCREENSHOT/atlas.png)
+![](https://github.com/senselogic/ATLAS/blob/master/SCREENSHOT/atlas_1.png)
+
+![](https://github.com/senselogic/ATLAS/blob/master/SCREENSHOT/atlas_2.png)
 
 ## Description
 
