@@ -12,12 +12,12 @@ This plugin allows to emulate Notion's navigation behavior by  :
 *   adding a persistent bar over the title with :
     *   a breadcrumb to open and create parent notes;
     *   a button to reveal the current note in the tree view;
-    *   a button to create note folders;
-    *   a button create child notes.
+    *   a button to create the note folder;
+    *   a button to create a child note.
 *   adding a child note link list below the title, sorted in alphabetical order;
 *   adding a tree view contextual menu option to :
-    *   create note folders;
-    *   create child notes.
+    *   create a note folder;
+    *   create a child note.
 *   keeping the note and its folder together in the tree view, sorted in :
     *   natural alphabetical order;
     *   reverse natural alphabetical order;
