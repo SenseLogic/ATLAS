@@ -70,8 +70,8 @@ This plugin is best used :
 ## Known issues
 
 Due to the way Obsidian handles events :
-*   The child note list may not be immediately refreshed;
-*   The note links and buttons may sometimes need a second click.
+*   The parent note links and buttons may sometimes need a second click;
+*   The child note list may not be immediately refreshed.
 
 ## Version
 
