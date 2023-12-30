@@ -28,7 +28,7 @@ This plugin allows to emulate Notion's navigation behavior by  :
     *   modification time order;
     *   reverse modification time order.
 
-The tree view can therefore remain hidden most of the time, as it is no longer needed for navigation and note creation.
+The tree view can therefore remain hidden most of the time, as the editing view can be used for navigation and note creation.
 
 ## Installation
 
