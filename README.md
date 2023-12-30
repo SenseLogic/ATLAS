@@ -69,7 +69,7 @@ This plugin is best used :
 
 ## Known issues
 
-Due to technical problems with Obsidian's event handling system :
+Due to technical issues with Obsidian's event handling system :
 *   the child note list is not always immediately refreshed;
 *   The note links and buttons are not always immediately effective.
 
