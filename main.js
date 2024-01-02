@@ -347,6 +347,33 @@ module.exports = class Atlas extends Plugin
         await this.app.vault.create( folderPath + '/' + noteName, '' );
 
         this.app.workspace.openLinkText( noteName, folderPath, true );
+
+        let self = this;
+
+        setTimeout(
+            function ()
+            {
+                let contentElement = self.getContentElement();
+
+                if ( contentElement )
+                {
+                    let titleElement = contentElement.querySelector( '.inline-title' );
+
+                    if ( titleElement )
+                    {
+                        titleElement.focus();
+
+                        var range = document.createRange();
+                        range.selectNodeContents(titleElement);
+
+                        var selection = window.getSelection();
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+                }
+            },
+            1000
+            );
     }
 
     // ~~
