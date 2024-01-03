@@ -751,7 +751,7 @@ module.exports = class Atlas extends Plugin
     async onload(
         )
     {
-        console.log( 'Atlas plugin loaded' );
+        console.log( 'Atlas plugin loading' );
 
         await this.loadSettings();
 
@@ -871,6 +871,8 @@ module.exports = class Atlas extends Plugin
             );
 
         this.app.workspace.trigger( 'layout-change' );
+
+        console.log( 'Atlas plugin loaded' );
     }
 
     // ~~
