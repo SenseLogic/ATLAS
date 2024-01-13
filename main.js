@@ -78,6 +78,24 @@ function getDescendingModificationTimeChildComparison(
     return -getModificationTimeChildComparison( firstChild, secondChild );
 }
 
+// ~~
+
+function getFolderPath(
+    filePath
+    )
+{
+    let slashCharacterIndex = filePath.lastIndexOf( '/' );
+
+    if ( slashCharacterIndex >= 0 )
+    {
+        return filePath.slice( 0, slashCharacterIndex );
+    }
+    else
+    {
+        return "";
+    }
+}
+
 // -- TYPES
 
 class AtlasSettingTab
@@ -374,6 +392,22 @@ module.exports = class Atlas extends Plugin
             },
             1000
             );
+    }
+
+    // ~~
+
+    async createFolderNote(
+        file
+        )
+    {
+        let filePath = file.path + ".md";
+
+        if ( !this.app.vault.getAbstractFileByPath( filePath ) )
+        {
+            await this.app.vault.create( filePath, '' );
+
+            this.app.workspace.openLinkText( file.name, getFolderPath( filePath ), true );
+        }
     }
 
     // ~~
@@ -762,7 +796,8 @@ module.exports = class Atlas extends Plugin
                 'file-menu',
                 ( menu, file ) =>
                 {
-                    if ( file.extension === 'md' )
+                    if ( file instanceof TFile
+                         && file.extension === 'md' )
                     {
                         menu.addItem(
                             ( item ) =>
@@ -779,6 +814,18 @@ module.exports = class Atlas extends Plugin
                                 item.setTitle( 'Create child note' )
                                 .setIcon( 'plus-with-circle' )
                                 .onClick( () => this.createChildNote( file ) );
+                            }
+                            );
+                    }
+
+                    if ( file instanceof TFolder )
+                    {
+                        menu.addItem(
+                            ( item ) =>
+                            {
+                                item.setTitle( 'Create folder note' )
+                                .setIcon( 'lucide-file-plus' )
+                                .onClick( () => this.createFolderNote( file ) );
                             }
                             );
                     }

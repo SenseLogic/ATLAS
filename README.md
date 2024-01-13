@@ -18,6 +18,7 @@ This plugin allows to emulate Notion's navigation behavior by :
     *   a button to create a child note.
 *   Adding a child note link list below the title, sorted in alphabetical order.
 *   Adding a tree view contextual menu option to :
+    *   create a folder note;
     *   create a note folder;
     *   create a child note.
 *   Keeping the note and its folder together in the tree view, sorted in :
