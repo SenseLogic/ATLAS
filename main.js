@@ -390,7 +390,7 @@ module.exports = class Atlas extends Plugin
                     }
                 }
             },
-            1000
+            350
             );
     }
 
