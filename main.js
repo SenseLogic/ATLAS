@@ -1,5 +1,7 @@
 // -- IMPORTS
 
+const { exec } = require( 'child_process' );
+const path = require( 'path' );
 const { MarkdownView, Plugin, PluginSettingTab, Setting, TFile, TFolder } = require( 'obsidian' );
 
 // -- FUNCTIONS
@@ -328,6 +330,36 @@ module.exports = class Atlas extends Plugin
 
     // ~~
 
+    async openNoteFolder(
+        file
+        )
+    {
+        if ( file !== null
+             && file.parent !== null )
+        {
+            let vaultBasePath = this.app.vault.adapter.getBasePath();
+            let folderPath = path.normalize( path.join( vaultBasePath, file.parent.path ) );
+            let command;
+
+            if ( process.platform === 'win32' )
+            {
+                command = `explorer "${ folderPath }"`;
+            }
+            else if ( process.platform === 'darwin' )
+            {
+                command = `open "${ folderPath }"`;
+            }
+            else
+            {
+                command = `xdg-open "${ folderPath }"`;
+            }
+
+            exec( command );
+        }
+    }
+
+    // ~~
+
     async createNoteFolder(
         file
         )
@@ -569,7 +601,7 @@ module.exports = class Atlas extends Plugin
                                 }
 
                                 let buttonElement = document.createElement( 'div' );
-                                buttonElement.style.marginLeft= 'auto';
+                                buttonElement.style.marginLeft = 'auto';
                                 buttonElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="18" height="18" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M22 12h-4"/><path d="M6 12H2"/><path d="M12 6V2"/><path d="M12 22v-4"/></g></svg>';
 
                                 let svgElement = buttonElement.querySelector( 'svg' );
@@ -603,6 +635,24 @@ module.exports = class Atlas extends Plugin
                                             },
                                             200
                                             );
+                                    }
+                                    );
+
+                                parentFileListElement.appendChild( buttonElement );
+
+                                buttonElement = document.createElement( 'div' );
+                                buttonElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-folder"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M22 6H12"/></svg>';
+
+                                svgElement = buttonElement.querySelector( 'svg' );
+                                svgElement.style.height = this.settings.parentLinkFontSize;
+                                svgElement.style.width = this.settings.parentLinkFontSize;
+
+                                this.registerDomEvent(
+                                    buttonElement,
+                                    'click',
+                                    () =>
+                                    {
+                                        this.openNoteFolder( activeFile );
                                     }
                                     );
 
