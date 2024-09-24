@@ -71,9 +71,9 @@ This plugin is meant to be used :
 
 ## Known issues
 
-Due to Obsidian capricious behavior :
-*   The parent note links and buttons sometimes need a second click;
-*   The child note list is not always immediately refreshed.
+Due to Obsidian's somewhat capricious behavior :
+*   Parent note links and buttons sometimes require a second click;
+*   Child note lists are not always refreshed immediately.
 
 ## Version
 
