@@ -13,15 +13,16 @@ Notion-like navigation plugin for Obsidian.
 This plugin allows to emulate Notion's navigation behavior by :
 *   Adding a persistent bar over the title with :
     *   a breadcrumb to open and create parent notes;
-    *   a button to reveal the current note in the tree view;
+    *   a button to reveal the note in the tree view;
+    *   a button to open the note parent folder;
     *   a button to create the note folder;
     *   a button to create a child note.
 *   Adding a child note link list below the title, sorted in alphabetical order.
-*   Adding a tree view contextual menu option to :
+*   Adding tree view contextual menu options to :
     *   create a folder note;
     *   create a note folder;
     *   create a child note.
-*   Keeping the note and its folder together in the tree view, sorted in :
+*   Keeping the note and its folder together in the tree view, sorted in either :
     *   natural alphabetical order;
     *   reverse natural alphabetical order;
     *   creation time order;
@@ -29,7 +30,7 @@ This plugin allows to emulate Notion's navigation behavior by :
     *   modification time order;
     *   reverse modification time order.
 
-The tree view can therefore remain hidden most of the time, as the editing view can now also be used for navigation and note creation.
+The tree view can thus remain hidden most of the time, since the editing view is now also used for navigation and note creation.
 
 ## Installation
 
@@ -39,13 +40,13 @@ The tree view can therefore remain hidden most of the time, as the editing view 
 
 ## Usage
 
-This plugin is best used :
+This plugin is meant to be used :
 
 *   On a Notion vault converted with [Topaz](https://github.com/senselogic/TOPAZ) :
     ```sh
     topaz --fix-paths --fix-newlines --fix-video-links --fix-titles --fix-indexes NOTION_EXPORT_FOLDER/ OBSIDIAN_VAULT_FOLDER/
     ```
-*   With those companion plugins :
+*   In synergy with the following plugins :
     *   Local Images Plus :
         *   Process all new markdown files : yes.
         *   Process all new attachments : yes.
